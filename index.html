@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATI — Sistema de Agendamentos de TI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo-block">
+      <div class="logo-name">SATI</div>
+      <div class="logo-sub">Sistema de Agendamentos de TI</div>
+      <div class="logo-tag">● ONLINE</div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-item active" data-p="dashboard"><div class="nav-dot"></div>Dashboard</div>
+      <div class="nav-item" data-p="novo"><div class="nav-dot"></div>Novo Agendamento</div>
+      <div class="nav-item" data-p="fila"><div class="nav-dot"></div>Fila de Atendimento</div>
+      <div class="nav-item" data-p="historico"><div class="nav-dot"></div>Histórico</div>
+      <div class="nav-item" data-p="usuarios"><div class="nav-dot"></div>Usuários</div>
+    </nav>
+    <div class="sidebar-footer"><span class="status-dot"></span>Sistema operacional</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="page-title" id="page-label">Dashboard</div>
+      <div class="clock-block" id="clock"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="pg-dashboard">
+        <div class="stats-row" style="margin-bottom:1.1rem">
+          <div class="stat-card" style="--accent:var(--cyan)"><div class="stat-lbl">Total</div><div class="stat-num" id="s-total">0</div><div class="stat-sub">agendamentos</div></div>
+          <div class="stat-card" style="--accent:#ffc107"><div class="stat-lbl">Na fila</div><div class="stat-num" id="s-fila">0</div><div class="stat-sub">aguardando</div></div>
+          <div class="stat-card" style="--accent:var(--blue)"><div class="stat-lbl">Em curso</div><div class="stat-num" id="s-prog">0</div><div class="stat-sub">em andamento</div></div>
+          <div class="stat-card" style="--accent:var(--green)"><div class="stat-lbl">Concluídos</div><div class="stat-num" id="s-done">0</div><div class="stat-sub">finalizados</div></div>
+        </div>
+        <div class="panels">
+          <div class="panel">
+            <div class="panel-hd"><div class="panel-title">Próximos na fila</div><span class="badge b-wait" id="d-fc">0</span></div>
+            <div id="d-fila"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-hd"><div class="panel-title">Ações rápidas</div></div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem">
+              <button class="btn-neon" onclick="go('novo')">+ Novo Agendamento</button>
+              <button class="btn-ghost" onclick="go('fila')">↳ Ver fila completa</button>
+              <button class="btn-ghost" onclick="go('historico')">↳ Ver histórico</button>
+            </div>
+            <div style="border-top:1px solid var(--border);padding-top:.9rem">
+              <div style="font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Distribuição por tipo</div>
+              <div id="d-tipos" style="display:flex;flex-direction:column;gap:7px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOVO -->
+      <div id="pg-novo" style="display:none">
+        <div class="panel" style="max-width:580px">
+          <div class="panel-hd"><div class="panel-title">Novo Agendamento</div></div>
+          <div id="n-alert" style="display:none"></div>
+          <div class="form-grid">
+            <div class="form-group full"><div class="flabel">Nome completo *</div><input id="fn" placeholder="Solicitante"></div>
+            <div class="form-group"><div class="flabel">Setor *</div><input id="fs" placeholder="Ex: Administrativo"></div>
+            <div class="form-group"><div class="flabel">Tipo de serviço *</div>
+              <select id="ft">
+                <option value="">Selecione...</option>
+                <option>Suporte de hardware</option>
+                <option>Instalação de software</option>
+                <option>Problema de rede</option>
+                <option>Configuração de e-mail</option>
+                <option>Manutenção preventiva</option>
+                <option>Outro</option>
+              </select>
+            </div>
+            <div class="form-group full"><div class="flabel">Descrição</div><textarea id="fd" rows="3" placeholder="Descreva o problema..."></textarea></div>
+            <div class="form-group"><div class="flabel">Prioridade</div>
+              <select id="fp"><option value="Normal">Normal</option><option value="Alta">Alta</option><option value="Urgente">Urgente</option></select>
+            </div>
+            <div class="form-group"><div class="flabel">Data preferencial</div><input type="date" id="fdata"></div>
+            <div class="form-group full" style="flex-direction:row;gap:8px">
+              <button class="btn-neon" onclick="submitAg()">Confirmar</button>
+              <button class="btn-ghost" onclick="clearF()">Limpar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA -->
+      <div id="pg-fila" style="display:none">
+        <div class="panel">
+          <div class="panel-hd"><div class="panel-title">Fila de Atendimento — FIFO</div><span style="font-size:10px;color:var(--txt3)">First In, First Out</span></div>
+          <div id="fila-tbl"></div>
+        </div>
+      </div>
+
+      <!-- HISTÓRICO -->
+      <div id="pg-historico" style="display:none">
+        <div class="panel">
+          <div class="panel-hd"><div class="panel-title">Log de Ações</div></div>
+          <div id="hist-list"></div>
+        </div>
+      </div>
+
+      <!-- USUÁRIOS -->
+      <div id="pg-usuarios" style="display:none">
+        <div class="panel">
+          <div class="panel-hd"><div class="panel-title">Usuários Cadastrados</div></div>
+          <div id="usr-tbl"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="index.js">
+</script>
+</body>
+</html>
