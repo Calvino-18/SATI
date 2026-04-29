@@ -1,5 +1,5 @@
-const SUPABASE_URL = "https://blwwzglvdhkhbsufsxfs.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsd3d6Z2x2ZGhraGJzdWZzeGZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjYwNzksImV4cCI6MjA5MTk0MjA3OX0.92R0mBPsm3AiYSChrqMNT2jxqEV_1d77FPsHKyi_1v0";
+const SUPABASE_URL = "https://rsqqhbwzzcqwrtjaqtap.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzcXFoYnd6emNxd3J0amFxdGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0ODQ1MzYsImV4cCI6MjA5MzA2MDUzNn0.MyvPCJYbZ3L_K1rwk0QZnsTlxPq_ZBGCMy86C4FG0Bs";
 
 let ag = [];
 let usr = {};
