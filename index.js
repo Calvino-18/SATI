@@ -48,7 +48,7 @@ loadAgendamentos();
   function prioC(p){return p==='Urgente'?'prio-u':p==='Alta'?'prio-a':'prio-n';}
 
   function renderDash(){
-    document.getElementById('s-total').textContent = ag.filter(x => x.status !== 'Cancelado').length;
+    document.getElementById('s-total').textContent = ag.filter(x => x.status !== 'Cancelado' && x.status !== 'Concluído').length;
     document.getElementById('s-fila').textContent=ag.filter(x=>x.status==='Aguardando').length;
     document.getElementById('s-prog').textContent=ag.filter(x=>x.status==='Em_andamento').length;
     document.getElementById('s-done').textContent=ag.filter(x=>x.status==='Concluído').length;
